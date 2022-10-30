@@ -2532,62 +2532,52 @@ void mens();
 
 char antiRebound(char key);
 void verification(char password[]);
-# 35 "main.c"
+void printLCD(char key);
+# 36 "main.c"
 int inpassword() {
-    int i = 0;
     PORTDbits.RD0 = 1;
-    char in, key = 0;
-    char password[4] = "empty";
-    char hBits;
+    int hBits, selec = 0;
+
+    char key=0;
     while (1) {
-        while (key < 15) {
-            if (PORTD == 0x08) {
-                PORTD = 0x01;
-            }
-            hBits = PORTD << 0x10;
-            switch (hBits) {
-                case 16: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 32: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 64: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 128: in = antiRebound(key);
-                    key++;
-                    break;
-            }
-
-            PORTD <<= 1;
-
-
-            if (key > 16) {
-                key = 0;
-            }
+        hBits = PORTD >> 4;
+        switch(hBits){
+            case 1: key = antiRebound(selec); break;
+            case 2: key = antiRebound(selec+1); break;
+            case 4: key = antiRebound(selec+2); break;
+            case 8: key = antiRebound(selec+3); break;
         }
-        if (i == 4) {
-            verification(password);
-            return 1;
+        selec+=4;
+        PORTD <<=1;
+        if(PORTD == 0x08){
+            PORTD = 0x01;
+            selec=0;
         }
-        key = 0;
+
+        if (key!=0) {
+            printLCD(key);
+            key=0;
+        }
+
     }
-
 }
+
+void printLCD(char key){
+     send_cmd(0x01);
+     send_cmd(0x81);
+     send_char(key);
+}
+
 
 
 
 
 char antiRebound(char key) {
     char keyboard[16] = {
-        '1', '2', '3', 'A',
-        '4', '5', '6', 'B',
-        '7', '8', '9', 'C',
-        '*', '0', '#', 'D'
+        '7', '8', '9', '/',
+        '4', '5', '6', 'x',
+        '1', '2', '3', '-',
+        'A', '0', '=', '+'
     };
     while (PORTDbits.RD4 == 1) {}
     while (PORTDbits.RD5 == 1) {}
@@ -2634,9 +2624,9 @@ void verification(char password[]) {
 
 
     }
-# 147 "main.c"
+# 137 "main.c"
 }
-# 244 "main.c"
+# 234 "main.c"
 void main(void) {
 
     c_port();

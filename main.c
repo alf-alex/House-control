@@ -14,6 +14,7 @@
 
 char antiRebound(char key);
 void verification(char password[]);
+void printLCD(char key);
 
 
 
@@ -33,60 +34,49 @@ void verification(char password[]);
 /*arreglar funcion pasword y tipo de variable key ya que no enjeca en funcion,
  en switch guardar primero el caracter solo, luego en cadena completa para seuir*/
 int inpassword() {
-    int i = 0; //???
     PORTDbits.RD0 = 1;
-    char in, key = 0; //caracter para contrasenia
-    char password[4] = "empty"; //cadena para contrasenia
-    char hBits;
+    int hBits, selec = 0; //caracter para contrasenia
+    //char password[4] = "empty"; //cadena para contrasenia
+    char key=0;
     while (1) {
-        while (key < 15) {
-            if (PORTD == 0x08) {
-                PORTD = 0x01;
-            }
-            hBits = PORTD << 0x10;
-            switch (hBits) {
-                case 16: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 32: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 64: in = antiRebound(key);
-                    key++;
-                    break;
-
-                case 128: in = antiRebound(key);
-                    key++;
-                    break;
-            }
-            //STATUSbits.C = 0;
-            PORTD <<= 1;
-            //password[i] += in;
-            
-            if (key > 16) {
-                key = 0;
-            }
+        hBits = PORTD >> 4;
+        switch(hBits){
+            case 1: key = antiRebound(selec); break;
+            case 2: key = antiRebound(selec+1); break;
+            case 4: key = antiRebound(selec+2); break;
+            case 8: key = antiRebound(selec+3); break;
         }
-        if (i == 4) {
-            verification(password);
-            return 1;
+        selec+=4;
+        PORTD <<=1;
+        if(PORTD == 0x08){
+            PORTD = 0x01;
+            selec=0;
         }
-        key = 0;
+        
+        if (key!=0) {
+            printLCD(key);
+            key=0;
+        }
+
     }
-
 }
+
+void printLCD(char key){
+     send_cmd(0x01);
+     send_cmd(0x81);
+     send_char(key);
+}
+
 
 //funcion de antirebote, para evitar fallo en el boton y llama, a las funciones
 //de activacion de la contrasenia o rutinas de la casa, segun ese esepecificaco
 
 char antiRebound(char key) {
     char keyboard[16] = {
-        '1', '2', '3', 'A',
-        '4', '5', '6', 'B',
-        '7', '8', '9', 'C',
-        '*', '0', '#', 'D'
+        '7', '8', '9', '/',
+        '4', '5', '6', 'x',
+        '1', '2', '3', '-',
+        'A', '0', '=', '+'
     };
     while (PORTDbits.RD4 == 1) {}
     while (PORTDbits.RD5 == 1) {}

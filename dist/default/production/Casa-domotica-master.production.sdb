@@ -17,13 +17,13 @@
 [v _send_cmd send_cmd `(v  1 e 1 0 ]
 "34 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\config_port.c
 [v _c_port c_port `(v  1 e 1 0 ]
-"35 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
+"36 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
 [v _inpassword inpassword `(i  1 e 2 0 ]
-"84
+"64
+[v _printLCD printLCD `(v  1 e 1 0 ]
+"74
 [v _antiRebound antiRebound `(uc  1 e 1 0 ]
-"100
-[v _verification verification `(v  1 e 1 0 ]
-"244
+"234
 [v _main main `(v  1 e 1 0 ]
 "166 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
 [v _PORTA PORTA `VEuc  1 e 1 @5 ]
@@ -59,17 +59,17 @@
 [v _PORTDbits PORTDbits `VES31  1 e 1 @8 ]
 "414
 [v _PORTE PORTE `VEuc  1 e 1 @9 ]
-[s S144 . 1 `uc 1 RE0 1 0 :1:0 
+[s S143 . 1 `uc 1 RE0 1 0 :1:0 
 `uc 1 RE1 1 0 :1:1 
 `uc 1 RE2 1 0 :1:2 
 `uc 1 RE3 1 0 :1:3 
 ]
 "427
-[u S149 . 1 `S144 1 . 1 0 ]
-[v _PORTEbits PORTEbits `VES149  1 e 1 @9 ]
+[u S148 . 1 `S143 1 . 1 0 ]
+[v _PORTEbits PORTEbits `VES148  1 e 1 @9 ]
 "1416
 [v _TRISA TRISA `VEuc  1 e 1 @133 ]
-[s S171 . 1 `uc 1 TRISB0 1 0 :1:0 
+[s S170 . 1 `uc 1 TRISB0 1 0 :1:0 
 `uc 1 TRISB1 1 0 :1:1 
 `uc 1 TRISB2 1 0 :1:2 
 `uc 1 TRISB3 1 0 :1:3 
@@ -79,8 +79,8 @@
 `uc 1 TRISB7 1 0 :1:7 
 ]
 "1495
-[u S180 . 1 `S171 1 . 1 0 ]
-[v _TRISBbits TRISBbits `VES180  1 e 1 @134 ]
+[u S179 . 1 `S170 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES179  1 e 1 @134 ]
 "1540
 [v _TRISC TRISC `VEuc  1 e 1 @135 ]
 "1602
@@ -91,49 +91,30 @@
 [v _ANSEL ANSEL `VEuc  1 e 1 @392 ]
 "3449
 [v _ANSELH ANSELH `VEuc  1 e 1 @393 ]
-"244 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
+"234 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
 [v _main main `(v  1 e 1 0 ]
 {
+"239
+[v main@est est `i  1 a 2 17 ]
 "249
-[v main@est est `i  1 a 2 8 ]
-"259
 } 0
-"35
+"36
 [v _inpassword inpassword `(i  1 e 2 0 ]
 {
-"39
-[v inpassword@password password `[4]uc  1 a 4 19 ]
-"36
-[v inpassword@i i `i  1 a 2 23 ]
 "38
-[v inpassword@key key `uc  1 a 1 27 ]
+[v inpassword@selec selec `i  1 a 2 12 ]
+[v inpassword@hBits hBits `i  1 a 2 9 ]
 "40
-[v inpassword@hBits hBits `uc  1 a 1 26 ]
-"38
-[v inpassword@F1281 F1281 `[4]uc  1 s 4 F1281 ]
-"79
+[v inpassword@key key `uc  1 a 1 11 ]
+"62
 } 0
-"100
-[v _verification verification `(v  1 e 1 0 ]
+"64
+[v _printLCD printLCD `(v  1 e 1 0 ]
 {
-[v verification@password password `*.4uc  1 a 1 wreg ]
-"128
-[v verification@i_135 i `i  1 a 2 9 ]
-"115
-[v verification@i_126 i `i  1 a 2 7 ]
-"104
-[v verification@i i `i  1 a 2 11 ]
-"101
-[v verification@validation validation `i  1 a 2 1 ]
-"102
-[v verification@pass pass `*.24uc  1 a 1 5 ]
-[v verification@acep acep `*.24uc  1 a 1 4 ]
-[v verification@inv inv `*.24uc  1 a 1 3 ]
-"100
-[v verification@password password `*.4uc  1 a 1 wreg ]
-"102
-[v verification@password password `*.4uc  1 a 1 6 ]
-"147
+[v printLCD@key key `uc  1 a 1 wreg ]
+[v printLCD@key key `uc  1 a 1 wreg ]
+[v printLCD@key key `uc  1 a 1 3 ]
+"68
 } 0
 "6 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\cmd.c
 [v _send_char send_char `(v  1 e 1 0 ]
@@ -143,17 +124,17 @@
 [v send_char@character character `uc  1 a 1 2 ]
 "12
 } 0
-"84 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
+"74 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\main.c
 [v _antiRebound antiRebound `(uc  1 e 1 0 ]
 {
 [v antiRebound@key key `uc  1 a 1 wreg ]
-"85
+"75
 [v antiRebound@keyboard keyboard `[16]uc  1 a 16 0 ]
-"84
+"74
 [v antiRebound@key key `uc  1 a 1 wreg ]
-[v antiRebound@F1286 F1286 `[16]uc  1 s 16 F1286 ]
+[v antiRebound@F1287 F1287 `[16]uc  1 s 16 F1287 ]
 [v antiRebound@key key `uc  1 a 1 16 ]
-"98
+"88
 } 0
 "34 C:\Users\Alex\Documents\mygit\micro\Casa-domotica-master\config_port.c
 [v _c_port c_port `(v  1 e 1 0 ]
