@@ -4,15 +4,20 @@
 
 //se configuran las interrupciones
 
-/*void conf_int() {
+/**/
+void conf_int() {
     INTCONbits.INTE = 1;
     INTCONbits.INTF = 0;
     INTCONbits.RBIE = 1;
     INTCONbits.RBIF = 0;
     INTCONbits.GIE = 1;
     IOCB = 0XF8;
+    INTCONbits.T0IF=0;
+    INTCONbits.T0IE=1;
+    OPTION_REG = 0x22;
+    TMR0 = 0x0F;
 }
-
+/*
 //configuracion del pueto analogico
 
 void conf_adc() {
@@ -22,7 +27,7 @@ void conf_adc() {
 
 //configuracion del PWM
 
-/*void c_pwm(){
+*void c_pwm(){
     T2CON=0X00;
     PR2=0X64;
 ///////////

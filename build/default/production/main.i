@@ -2496,6 +2496,58 @@ extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 28 "C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\xc.h" 2 3
 # 10 "main.c" 2
+# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\string.h" 1 3
+
+
+
+
+
+# 1 "C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\__size_t.h" 1 3
+
+
+
+typedef unsigned size_t;
+# 6 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\string.h" 2 3
+
+# 1 "C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\\pic\\include\\__null.h" 1 3
+# 7 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\string.h" 2 3
+
+
+
+
+
+
+
+extern void * memcpy(void *, const void *, size_t);
+extern void * memmove(void *, const void *, size_t);
+extern void * memset(void *, int, size_t);
+# 36 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c90\\string.h" 3
+extern char * strcat(char *, const char *);
+extern char * strcpy(char *, const char *);
+extern char * strncat(char *, const char *, size_t);
+extern char * strncpy(char *, const char *, size_t);
+extern char * strdup(const char *);
+extern char * strtok(char *, const char *);
+
+
+extern int memcmp(const void *, const void *, size_t);
+extern int strcmp(const char *, const char *);
+extern int stricmp(const char *, const char *);
+extern int strncmp(const char *, const char *, size_t);
+extern int strnicmp(const char *, const char *, size_t);
+extern void * memchr(const void *, int, size_t);
+extern size_t strcspn(const char *, const char *);
+extern char * strpbrk(const char *, const char *);
+extern size_t strspn(const char *, const char *);
+extern char * strstr(const char *, const char *);
+extern char * stristr(const char *, const char *);
+extern char * strerror(int);
+extern size_t strlen(const char *);
+extern char * strchr(const char *, int);
+extern char * strichr(const char *, int);
+extern char * strrchr(const char *, int);
+extern char * strrichr(const char *, int);
+# 11 "main.c" 2
 # 1 "./config_pic.h" 1
 
 
@@ -2514,31 +2566,33 @@ extern __bank0 __bit __timeout;
 
 #pragma config BOR4V = BOR40V
 #pragma config WRT = OFF
-# 11 "main.c" 2
+# 12 "main.c" 2
 # 1 "./config_port.h" 1
 # 13 "./config_port.h"
 void c_port();
 void conf_int();
 void c_pwm();
 void conf_adc();
-# 12 "main.c" 2
+# 13 "main.c" 2
 # 1 "./cmd.h" 1
 # 11 "./cmd.h"
 void send_char(char character);
 void send_cmd(char character);
 void mens();
-# 13 "main.c" 2
+# 14 "main.c" 2
+
 
 
 char antiRebound(char key);
 void verification(char password[]);
 void printLCD(char key);
-# 36 "main.c"
-int inpassword() {
-    PORTDbits.RD0 = 1;
-    int hBits, selec = 0;
 
-    char key=0;
+
+
+int keyPad() {
+    PORTDbits.RD0 = 1;
+    int space=0, hBits;
+    char password[4], selec = 0, key=0;
     while (1) {
         hBits = PORTD >> 4;
         switch(hBits){
@@ -2556,19 +2610,24 @@ int inpassword() {
 
         if (key!=0) {
             printLCD(key);
+            password[space]=key;
             key=0;
+            space++;
+            if (space == 5){
+                verification(password);
+                space=0;
+            }
         }
 
     }
 }
 
 void printLCD(char key){
-     send_cmd(0x01);
-     send_cmd(0x81);
-     send_char(key);
+
+
+    if (key == '.') send_cmd(0x01);
+    else send_char(key);
 }
-
-
 
 
 
@@ -2577,7 +2636,7 @@ char antiRebound(char key) {
         '7', '8', '9', '/',
         '4', '5', '6', 'x',
         '1', '2', '3', '-',
-        'A', '0', '=', '+'
+        '.', '0', '=', '+'
     };
     while (PORTDbits.RD4 == 1) {}
     while (PORTDbits.RD5 == 1) {}
@@ -2590,28 +2649,17 @@ char antiRebound(char key) {
 
 void verification(char password[]) {
     int validation;
-    char *inv = "INVALIDO", *acep = "ACEPTADO", *esp = "ESPERE 5 SEGUNDOS", *pass = "ABCD0";
-
-    for (int i = 0; i < 4; i++) {
-        if (password[i] == pass[i]) {
-            validation++;
-        }
-    }
+    char *inv = "-------", *acep = "*****", *pass = "12345";
 
 
-
-    if (validation == 4) {
+    if ( strcmp(password,pass) == 0) {
         send_cmd(0x01);
-        send_cmd(0x83);
-        for (int i = 0; i < 7; i++) {
+        send_cmd(0x81);
+        for(int i=0;i < 4;i++){
             send_char(acep[i]);
         }
         _delay((unsigned long)((3000)*(8000000/4000.0)));
-
         send_cmd(0x01);
-        send_cmd(0x01);
-        PORTCbits.RC0 = 0;
-
     }
     else {
         send_cmd(0x01);
@@ -2619,14 +2667,35 @@ void verification(char password[]) {
         for (int i = 0; i < 7; i++) {
             send_char(inv[i]);
         }
-        _delay((unsigned long)((1000)*(8000000/4000.0)));
+        _delay((unsigned long)((3000)*(8000000/4000.0)));
         send_cmd(0x01);
 
-
+        TMR0--;
     }
-# 137 "main.c"
+
 }
-# 234 "main.c"
+# 194 "main.c"
+void __attribute__((picinterrupt(("")))) alarm(){
+    char *esp = "-*-*-";
+
+
+
+
+    if (INTCONbits.T0IF=1){
+        send_cmd(0x01);
+        send_cmd(0x81);
+        for(int i=0;i < 4;i++){
+            send_char(esp[i]);
+        }
+        _delay((unsigned long)((3000)*(8000000/4000.0)));
+        send_cmd(0x01);
+        INTCONbits.T0IE=0;
+    }
+    INTCONbits.RBIF = 0;
+    INTCONbits.INTF = 0;
+}
+
+
 void main(void) {
 
     c_port();
@@ -2636,7 +2705,7 @@ void main(void) {
     unsigned short pass;
     while (1) {
         switch (est) {
-            case 1: est = inpassword();
+            case 1: est = keyPad();
                 break;
         }
 

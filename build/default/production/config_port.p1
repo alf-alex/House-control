@@ -1,5 +1,29 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"3387 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
+"465 C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 465:     struct {
+[s S16 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S16 . RBIF INTF T0IF RBIE INTE T0IE PEIE GIE ]
+"475
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 475:     struct {
+[s S17 :2 `uc 1 :1 `uc 1 :2 `uc 1 :1 `uc 1 ]
+[n S17 . . TMR0IF . TMR0IE ]
+"464
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 464: typedef union {
+[u S15 `S16 1 `S17 1 ]
+[n S15 . . . ]
+"482
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 482: extern volatile INTCONbits_t INTCONbits __attribute__((address(0x00B)));
+[v _INTCONbits `VS15 ~T0 @X0 0 e@11 ]
+"2416
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 2416: extern volatile unsigned char IOCB __attribute__((address(0x096)));
+[v _IOCB `Vuc ~T0 @X0 0 e@150 ]
+"1346
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 1346: extern volatile unsigned char OPTION_REG __attribute__((address(0x081)));
+[v _OPTION_REG `Vuc ~T0 @X0 0 e@129 ]
+"59
+[; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 59: extern volatile unsigned char TMR0 __attribute__((address(0x001)));
+[v _TMR0 `Vuc ~T0 @X0 0 e@1 ]
+"3387
 [; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 3387: extern volatile unsigned char ANSEL __attribute__((address(0x188)));
 [v _ANSEL `Vuc ~T0 @X0 0 e@392 ]
 "3449
@@ -280,67 +304,107 @@ Version 4.0 HI-TECH Software Intermediate Code
 "3546
 [; ;C:/Program Files/Microchip/MPLABX/v5.45/packs/Microchip/PIC16Fxxx_DFP/1.2.33/xc8\pic\include\proc\pic16f887.h: 3546: __asm("EECON2 equ 018Dh");
 [; <" EECON2 equ 018Dh ;# ">
-"34 config_port.c
-[; ;config_port.c: 34: void c_port() {
+"8 config_port.c
+[; ;config_port.c: 8: void conf_int() {
+[v _conf_int `(v ~T0 @X0 1 ef ]
+{
+[e :U _conf_int ]
+[f ]
+"9
+[; ;config_port.c: 9:     INTCONbits.INTE = 1;
+[e = . . _INTCONbits 0 4 -> -> 1 `i `uc ]
+"10
+[; ;config_port.c: 10:     INTCONbits.INTF = 0;
+[e = . . _INTCONbits 0 1 -> -> 0 `i `uc ]
+"11
+[; ;config_port.c: 11:     INTCONbits.RBIE = 1;
+[e = . . _INTCONbits 0 3 -> -> 1 `i `uc ]
+"12
+[; ;config_port.c: 12:     INTCONbits.RBIF = 0;
+[e = . . _INTCONbits 0 0 -> -> 0 `i `uc ]
+"13
+[; ;config_port.c: 13:     INTCONbits.GIE = 1;
+[e = . . _INTCONbits 0 7 -> -> 1 `i `uc ]
+"14
+[; ;config_port.c: 14:     IOCB = 0XF8;
+[e = _IOCB -> -> 248 `i `uc ]
+"15
+[; ;config_port.c: 15:     INTCONbits.T0IF=0;
+[e = . . _INTCONbits 0 2 -> -> 0 `i `uc ]
+"16
+[; ;config_port.c: 16:     INTCONbits.T0IE=1;
+[e = . . _INTCONbits 0 5 -> -> 1 `i `uc ]
+"17
+[; ;config_port.c: 17:     OPTION_REG = 0x22;
+[e = _OPTION_REG -> -> 34 `i `uc ]
+"18
+[; ;config_port.c: 18:     TMR0 = 0x0F;
+[e = _TMR0 -> -> 15 `i `uc ]
+"19
+[; ;config_port.c: 19: }
+[e :UE 138 ]
+}
+"39
+[; ;config_port.c: 39: void c_port() {
 [v _c_port `(v ~T0 @X0 1 ef ]
 {
 [e :U _c_port ]
 [f ]
-"35
-[; ;config_port.c: 35:     char character;
-[v _character `uc ~T0 @X0 1 a ]
-"36
-[; ;config_port.c: 36:     ANSEL = 0x01;
-[e = _ANSEL -> -> 1 `i `uc ]
-"37
-[; ;config_port.c: 37:     ANSELH = 0;
-[e = _ANSELH -> -> 0 `i `uc ]
-"38
-[; ;config_port.c: 38:     TRISE = 0;
-[e = _TRISE -> -> 0 `i `uc ]
-"39
-[; ;config_port.c: 39:     TRISBbits.TRISB2 = 0;
-[e = . . _TRISBbits 0 2 -> -> 0 `i `uc ]
 "40
-[; ;config_port.c: 40:     TRISBbits.TRISB1 = 1;
-[e = . . _TRISBbits 0 1 -> -> 1 `i `uc ]
+[; ;config_port.c: 40:     char character;
+[v _character `uc ~T0 @X0 1 a ]
 "41
-[; ;config_port.c: 41:     TRISD = 0XF0;
-[e = _TRISD -> -> 240 `i `uc ]
+[; ;config_port.c: 41:     ANSEL = 0x01;
+[e = _ANSEL -> -> 1 `i `uc ]
 "42
-[; ;config_port.c: 42:     TRISA = 0;
-[e = _TRISA -> -> 0 `i `uc ]
+[; ;config_port.c: 42:     ANSELH = 0;
+[e = _ANSELH -> -> 0 `i `uc ]
 "43
-[; ;config_port.c: 43:     TRISC = 0;
-[e = _TRISC -> -> 0 `i `uc ]
+[; ;config_port.c: 43:     TRISE = 0;
+[e = _TRISE -> -> 0 `i `uc ]
 "44
-[; ;config_port.c: 44:     PORTD = 0;
-[e = _PORTD -> -> 0 `i `uc ]
+[; ;config_port.c: 44:     TRISBbits.TRISB2 = 0;
+[e = . . _TRISBbits 0 2 -> -> 0 `i `uc ]
 "45
-[; ;config_port.c: 45:     PORTA = 0;
-[e = _PORTA -> -> 0 `i `uc ]
+[; ;config_port.c: 45:     TRISBbits.TRISB1 = 1;
+[e = . . _TRISBbits 0 1 -> -> 1 `i `uc ]
 "46
-[; ;config_port.c: 46:     PORTC = 0;
-[e = _PORTC -> -> 0 `i `uc ]
+[; ;config_port.c: 46:     TRISD = 0XF0;
+[e = _TRISD -> -> 240 `i `uc ]
 "47
-[; ;config_port.c: 47:     PORTB = 0;
-[e = _PORTB -> -> 0 `i `uc ]
+[; ;config_port.c: 47:     TRISA = 0;
+[e = _TRISA -> -> 0 `i `uc ]
 "48
-[; ;config_port.c: 48:     PORTE = 0;
-[e = _PORTE -> -> 0 `i `uc ]
+[; ;config_port.c: 48:     TRISC = 0;
+[e = _TRISC -> -> 0 `i `uc ]
+"49
+[; ;config_port.c: 49:     PORTD = 0;
+[e = _PORTD -> -> 0 `i `uc ]
 "50
-[; ;config_port.c: 50:     send_cmd(character = 0X38);
-[e ( _send_cmd (1 = _character -> -> 56 `i `uc ]
+[; ;config_port.c: 50:     PORTA = 0;
+[e = _PORTA -> -> 0 `i `uc ]
+"51
+[; ;config_port.c: 51:     PORTC = 0;
+[e = _PORTC -> -> 0 `i `uc ]
 "52
-[; ;config_port.c: 52:     send_cmd(character = 0X0C);
-[e ( _send_cmd (1 = _character -> -> 12 `i `uc ]
-"54
-[; ;config_port.c: 54:     send_cmd(character = 0X06);
-[e ( _send_cmd (1 = _character -> -> 6 `i `uc ]
-"56
-[; ;config_port.c: 56:     send_cmd(character = 0X01);
-[e ( _send_cmd (1 = _character -> -> 1 `i `uc ]
+[; ;config_port.c: 52:     PORTB = 0;
+[e = _PORTB -> -> 0 `i `uc ]
+"53
+[; ;config_port.c: 53:     PORTE = 0;
+[e = _PORTE -> -> 0 `i `uc ]
+"55
+[; ;config_port.c: 55:     send_cmd(character = 0X38);
+[e ( _send_cmd (1 = _character -> -> 56 `i `uc ]
 "57
-[; ;config_port.c: 57: }
-[e :UE 138 ]
+[; ;config_port.c: 57:     send_cmd(character = 0X0C);
+[e ( _send_cmd (1 = _character -> -> 12 `i `uc ]
+"59
+[; ;config_port.c: 59:     send_cmd(character = 0X06);
+[e ( _send_cmd (1 = _character -> -> 6 `i `uc ]
+"61
+[; ;config_port.c: 61:     send_cmd(character = 0X01);
+[e ( _send_cmd (1 = _character -> -> 1 `i `uc ]
+"62
+[; ;config_port.c: 62: }
+[e :UE 139 ]
 }

@@ -2502,7 +2502,24 @@ void send_char(char character);
 void send_cmd(char character);
 void mens();
 # 3 "config_port.c" 2
-# 34 "config_port.c"
+
+
+
+
+
+void conf_int() {
+    INTCONbits.INTE = 1;
+    INTCONbits.INTF = 0;
+    INTCONbits.RBIE = 1;
+    INTCONbits.RBIF = 0;
+    INTCONbits.GIE = 1;
+    IOCB = 0XF8;
+    INTCONbits.T0IF=0;
+    INTCONbits.T0IE=1;
+    OPTION_REG = 0x22;
+    TMR0 = 0x0F;
+}
+# 39 "config_port.c"
 void c_port() {
     char character;
     ANSEL = 0x01;

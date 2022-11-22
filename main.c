@@ -7,9 +7,11 @@
 
 #define _XTAL_FREQ 8000000
 #include <xc.h>
+#include <string.h>
 #include "config_pic.h"
 #include "config_port.h"
 #include "cmd.h"
+
 
 
 char antiRebound(char key);
@@ -18,26 +20,10 @@ void printLCD(char key);
 
 
 
-/*hacer que funcione solo con lo basico, osea contraseña y alarma, en programas
- aparte realizar las demas funciones y simularlas para asegurar su uso para
- despues agregar al programar completo, funcones complementarias: PWM pára el
- foco, un protocolo de comunicacion para blootho o algo mas, regustrar quien
- esta en casa permedio de sensores (ver si se pueden mejorar), configuracion de
- entrad analogica para temperatura*/
-
-//arreglar problema de funcion verificacion, su tipo para que pueda aceptar cadenas completas
-
-
-
-//funcion que realiza la lectura del keydo matricial
-
-/*arreglar funcion pasword y tipo de variable key ya que no enjeca en funcion,
- en switch guardar primero el caracter solo, luego en cadena completa para seuir*/
-int inpassword() {
+int keyPad() {
     PORTDbits.RD0 = 1;
-    int hBits, selec = 0; //caracter para contrasenia
-    //char password[4] = "empty"; //cadena para contrasenia
-    char key=0;
+    int space=0, hBits; //caracter para contrasenia
+    char password[4], selec = 0, key=0;
     while (1) {
         hBits = PORTD >> 4;
         switch(hBits){
@@ -55,28 +41,33 @@ int inpassword() {
         
         if (key!=0) {
             printLCD(key);
+            password[space]=key;
             key=0;
+            space++;
+            if (space == 5){
+                verification(password);
+                space=0;
+            }
         }
 
     }
 }
 
 void printLCD(char key){
-     send_cmd(0x01);
-     send_cmd(0x81);
-     send_char(key);
+     //send_cmd(0x01);
+     //send_cmd(0x81);
+    if (key == '.') send_cmd(0x01);
+    else send_char(key);
 }
 
 
-//funcion de antirebote, para evitar fallo en el boton y llama, a las funciones
-//de activacion de la contrasenia o rutinas de la casa, segun ese esepecificaco
 
 char antiRebound(char key) {
     char keyboard[16] = {
         '7', '8', '9', '/',
         '4', '5', '6', 'x',
         '1', '2', '3', '-',
-        'A', '0', '=', '+'
+        '.', '0', '=', '+'
     };
     while (PORTDbits.RD4 == 1) {}
     while (PORTDbits.RD5 == 1) {}
@@ -89,51 +80,30 @@ char antiRebound(char key) {
 
 void verification(char password[]) {
     int validation;
-    char *inv = "INVALIDO", *acep = "ACEPTADO", *esp = "ESPERE 5 SEGUNDOS", *pass = "ABCD0";
+    char *inv = "-------", *acep = "*****", *pass = "12345";
     //se guarda el caracte en la cadena contrasenia para comparar mas adelante
-    for (int i = 0; i < 4; i++) {
-        if (password[i] == pass[i]) {
-            validation++;
-        }
-    }
-
-    //si es correcta despliega un mensaje indicandolo y
-    //sale del modo alarma
-    if (validation == 4) {
+    
+    if ( strcmp(password,pass) == 0) {
         send_cmd(0x01);
-        send_cmd(0x83);
-        for (int i = 0; i < 7; i++) {
+        send_cmd(0x81);
+        for(int i=0;i < 4;i++){
             send_char(acep[i]);
         }
         __delay_ms(3000);
-        //
         send_cmd(0x01);
-        send_cmd(0x01);
-        PORTCbits.RC0 = 0;
-        //
-    }//sino es correcta se despliega un mensaje indicandolo
+    }
     else {
         send_cmd(0x01);
         send_cmd(0x81);
         for (int i = 0; i < 7; i++) {
             send_char(inv[i]);
         }
-        __delay_ms(1000);
+        __delay_ms(3000);
         send_cmd(0x01);
         //colocar acumulador que active una interrupcion a los tres intentos
-
+        TMR0--;
     }
 
-    //a los 3 intentos se despliega un mensaje de espera
-    /*if (var2 == 3) {
-        send_cmd(pass = 0x01);
-        for (i = 0; i < 9; i++) {
-            send_char(pass = esp[i]);
-        }
-        __delay_ms(5000);
-        send_cmd(pass = 0x01);
-        var2 = 0;
-    }*/
 }
 //configuracion del puerto analogico para ensender a un abanico en caso de
 //exeder cierta temperatura
@@ -220,16 +190,27 @@ void bulb() {
 }
  */
 
-/*
-void interrupt() {
 
-    if (INTCONbits.INTF == 1) alarm_actived();
-    if (INTCONbits.RBIF == 1) bulb();
-
+void __interrupt () alarm(){
+    char *esp = "-*-*-";
+    //if (INTCONbits.INTF == 1) alarm_actived();
+    //if (INTCONbits.RBIF == 1) bulb();
+    
+    //a los 3 intentos se despliega un mensaje de espera
+    if (INTCONbits.T0IF=1){
+        send_cmd(0x01);
+        send_cmd(0x81);
+        for(int i=0;i < 4;i++){
+            send_char(esp[i]);
+        }
+        __delay_ms(3000);
+        send_cmd(0x01);
+        INTCONbits.T0IE=0;
+    }
     INTCONbits.RBIF = 0;
     INTCONbits.INTF = 0;
 }
- */
+
 
 void main(void) {
 
@@ -240,7 +221,7 @@ void main(void) {
     unsigned short pass;
     while (1) {
         switch (est) {
-            case 1: est = inpassword();
+            case 1: est = keyPad();
                 break;
         }
 
